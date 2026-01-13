@@ -38,16 +38,16 @@
         .timer { font-size: 1.5rem; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
         .progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 25px; }
         #progress-bar { height: 100%; background: var(--accent); width: 0%; border-radius: 10px; transition: 0.4s; }
-        .question-box { font-size: 1.15rem; font-weight: 600; margin-bottom: 25px; min-height: 80px; display: flex; align-items: center; justify-content: center;}
-        .options-grid { display: grid; gap: 12px; }
-        .opt { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #cbd5e1; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: left; font-size: 0.95rem; }
+        .question-box { font-size: 1.05rem; font-weight: 600; margin-bottom: 20px; min-height: 90px; display: flex; align-items: center; justify-content: center; line-height: 1.4;}
+        .options-grid { display: grid; gap: 10px; }
+        .opt { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #cbd5e1; padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: left; font-size: 0.9rem; }
         .opt:hover { border-color: var(--accent); background: rgba(0, 210, 255, 0.05); }
         .correct { background: #059669 !important; border-color: #10b981 !important; color: white !important;}
         .wrong { background: #dc2626 !important; border-color: #ef4444 !important; color: white !important;}
         
         .overlay { display: none; position: absolute; inset: 0; background: #0f172a; z-index: 100; flex-direction: column; justify-content: center; align-items: center; border-radius: 28px; padding: 30px; }
         .btn-action { background: var(--accent); color: #0f172a; border: none; padding: 16px 40px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; text-decoration: none; display: inline-block;}
-        h1 { color: #fff; margin: 0; font-size: 2.4rem; letter-spacing: -1px; }
+        h1 { color: #fff; margin: 0; font-size: 2.2rem; letter-spacing: -1px; }
         p { color: #94a3b8; line-height: 1.5; font-size: 0.9rem; }
     </style>
 </head>
@@ -58,7 +58,7 @@
         <div class="brand-sub">COMPANY ABC PRESENTS</div>
         <h1>SafeMap</h1>
         <p style="margin-top: 15px;"><i>"Mastering your environment is the foundation of safety."</i></p>
-        <p>Interactive Floor-by-Floor Journey</p>
+        <p>A 20-Question Site Awareness Journey</p>
         <button class="btn-action" onclick="begin()">EXPLORE SURROUNDINGS</button>
     </div>
 
@@ -71,34 +71,46 @@
     <div id="result-screen" class="overlay">
         <h1>JOURNEY END</h1>
         <p id="final-score" style="font-size: 1.1rem; color: #fff;"></p>
-        <p>You have successfully mapped your environment.</p>
+        <p>Environment knowledge verified.</p>
         <a href="https://www.linkedin.com/in/davidkiboi" class="btn-action">HIRE DAVID KIBOI</a>
     </div>
 
     <div class="timer" id="timer">30</div>
     <div class="progress-container"><div id="progress-bar"></div></div>
-    <div class="question-box" id="q-text">Identifying Site...</div>
+    <div class="question-box" id="q-text">Mapping...</div>
     <div class="options-grid" id="o-grid"></div>
 </div>
 
 <script>
-    const baseQuestions = [
-        { q: "Why is environment mapping essential for safety?", a: ["It speeds up work", "Knowing exits/risks saves lives", "It looks good to guests", "It's a legal requirement only"], c: 1 },
-        { q: "SafeMap's Floor-by-Floor system ensures:", a: ["Random learning", "Mastery before advancement", "Skipping hard topics", "Only managers learn"], c: 1 },
-        { q: "Site awareness (knowing your surroundings) leads to:", a: ["Confusion", "Proactive hazard prevention", "Slower response times", "Fewer breaks"], c: 1 },
-        { q: "In an emergency, who is the safest Heartist?", a: ["The fastest runner", "The one who knows the layout", "The one who waits for orders", "The newest hire"], c: 1 },
-        { q: "Company ABC transforms complex sites into:", a: ["Large paper maps", "Interactive digital journeys", "Warning signs only", "Security manuals"], c: 1 }
+    const questions = [
+        { q: "Who is the current CEO/Director General leading Company ABC?", a: ["Jane Smith", "John Doe", "Robert Brown", "Sarah Lee"], c: 1 },
+        { q: "On the interactive SafeMap, where is the main Control Room located?", a: ["Ground Floor", "Basement 1", "Roof", "Level 10"], c: 1 },
+        { q: "Where are the fire extinguisher stations located within Company ABC?", a: ["Ground only", "Levels 1-10", "All levels (1-25)", "Parking only"], c: 2 },
+        { q: "What is the primary benefit of an Automated External Defibrillator (AED)?", a: ["Stops bleeding", "Restores heart rhythm", "Checks temperature", "Purifies air"], c: 1 },
+        { q: "Where are the AED units located within the Company ABC facility?", a: ["L1 & L2 only", "Every Floor", "B2, G, L10, L20", "Security Desk only"], c: 2 },
+        { q: "Where is the designated Primary Emergency Assembly Point located?", a: ["Main Lobby", "North Plaza", "Basement 4", "Staff Cafeteria"], c: 1 },
+        { q: "In the country of operation, what does dialing the emergency number 999 provide?", a: ["Police only", "Fire only", "Ambulance only", "All Emergency Services"], c: 3 },
+        { q: "How many emergency exit staircases are available in the Company ABC building?", a: ["4", "8", "12", "16"], c: 2 },
+        { q: "What is the main safety benefit of pressurized emergency exit staircases?", a: ["Keeps air cool", "Prevents smoke entry", "Speed up walking", "Noise reduction"], c: 1 },
+        { q: "On which specific floors are specialized Evacuation Chairs found?", a: ["Every floor", "G & Roof", "L5, L15, L25", "Basement only"], c: 2 },
+        { q: "In which area is the main Company ABC First Aid Room located?", a: ["Floor 2", "Ground Floor", "Mezzanine", "Basement 1"], c: 0 },
+        { q: "During an evacuation, which department is responsible for cutting the power?", a: ["Security", "HR", "Engineering", "IT"], c: 2 },
+        { q: "Which exit door leads directly to the Primary Assembly Point?", a: ["Exit 1", "Exit 2", "Exit 3", "Exit 4"], c: 3 },
+        { q: "What is the first action you should take the moment a fire alarm sounds?", a: ["Call the CEO", "Finish your task", "Evacuate immediately", "Pack your bags"], c: 2 },
+        { q: "Which department is responsible for Guest/Client Accounting during an emergency?", a: ["Marketing", "Front Office/Reception", "Finance", "Housekeeping"], c: 1 },
+        { q: "All the following are characteristics of the ABC Fire Alarm except:", a: ["Visual strobes", "High-decibel siren", "Automatic link to Fire Dept", "Voice instructions only"], c: 3 },
+        { q: "What is the primary importance of a regularly inspected First Aid Kit?", a: ["Long term surgery", "Immediate injury care", "Storing vitamins", "Office decoration"], c: 1 },
+        { q: "What color is the universal sign for an Emergency Exit?", a: ["Red and White", "Green and White", "Blue and Yellow", "Black and Red"], c: 1 },
+        { q: "What does the 'R' stand for in the RACE fire response protocol?", a: ["Run", "Rescue", "Report", "Ring"], c: 1 },
+        { q: "How often should a Professional or Team Member refresh their SafeMap training?", a: ["Never", "Every 5 years", "Every 6 Months", "Only after an accident"], c: 2 }
     ];
-
-    const questions = [];
-    for(let i=0; i<30; i++) { questions.push(baseQuestions[i % baseQuestions.length]); }
 
     let current = 0, score = 0, clock, time = 30;
 
     function begin() { document.getElementById('start-screen').style.display = 'none'; loadQ(); }
 
     function loadQ() {
-        if (current === 10 || current === 20) { showMilestone(); return; }
+        if (current === 10) { showMilestone(); return; }
         startClock();
         const data = questions[current]; 
         document.getElementById('q-text').innerText = data.q;
@@ -111,7 +123,7 @@
             b.onclick = () => verify(i, b);
             grid.appendChild(b);
         });
-        document.getElementById('progress-bar').style.width = (current / 30) * 100 + '%';
+        document.getElementById('progress-bar').style.width = (current / 20) * 100 + '%';
     }
 
     function startClock() {
@@ -132,7 +144,7 @@
         all.forEach(b => b.disabled = true);
         if (choice === correct) { if(btn) btn.classList.add('correct'); score++; } 
         else { if (btn) btn.classList.add('wrong'); all[correct].classList.add('correct'); }
-        setTimeout(() => { current++; current < 30 ? loadQ() : finish(); }, 1200);
+        setTimeout(() => { current++; current < 20 ? loadQ() : finish(); }, 1200);
     }
 
     function showMilestone() {
@@ -140,22 +152,16 @@
         const title = document.getElementById('m-title');
         const desc = document.getElementById('m-desc');
         screen.style.display = 'flex';
-        if (current === 10) {
-            title.innerText = "FLOOR 1: SITUATIONAL AWARENESS";
-            desc.innerText = "You have mastered the basics of your surroundings. Ready to dive into the technical safety layers?";
-        } else {
-            title.innerText = "FLOOR 2: OPERATIONAL SECURITY";
-            desc.innerText = "Critical safety paths mapped. Your environment knowledge is now at professional security levels.";
-        }
+        title.innerText = "FLOOR 1: AWARENESS VERIFIED";
+        desc.innerText = "You have demonstrated strong knowledge of the facility layout. Proceed to the Final Floor: Emergency Response.";
     }
 
     function resume() { document.getElementById('milestone-screen').style.display = 'none'; loadQ(); }
 
     function finish() {
         document.getElementById('result-screen').style.display = 'flex';
-        document.getElementById('final-score').innerText = `Awareness Rating: ${score}/30`;
+        document.getElementById('final-score').innerText = `Awareness Rating: ${score}/20`;
     }
 </script>
 </body>
 </html>
-
