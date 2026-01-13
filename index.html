@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeMap | by Company ABC</title>
+    <style>
+        :root {
+            --accent: #00d2ff; 
+            --bg: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: #f8fafc;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #app-container {
+            width: 90%;
+            max-width: 420px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+        }
+        .brand-sub { font-size: 0.75rem; color: var(--accent); letter-spacing: 3px; margin-bottom: 5px; opacity: 0.8; }
+        .timer { font-size: 1.5rem; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
+        .progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 25px; }
+        #progress-bar { height: 100%; background: var(--accent); width: 0%; border-radius: 10px; transition: 0.4s; }
+        .question-box { font-size: 1.15rem; font-weight: 600; margin-bottom: 25px; min-height: 80px; display: flex; align-items: center; justify-content: center;}
+        .options-grid { display: grid; gap: 12px; }
+        .opt { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #cbd5e1; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: left; font-size: 0.95rem; }
+        .opt:hover { border-color: var(--accent); background: rgba(0, 210, 255, 0.05); }
+        .correct { background: #059669 !important; border-color: #10b981 !important; color: white !important;}
+        .wrong { background: #dc2626 !important; border-color: #ef4444 !important; color: white !important;}
+        
+        .overlay { display: none; position: absolute; inset: 0; background: #0f172a; z-index: 100; flex-direction: column; justify-content: center; align-items: center; border-radius: 28px; padding: 30px; }
+        .btn-action { background: var(--accent); color: #0f172a; border: none; padding: 16px 40px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; text-decoration: none; display: inline-block;}
+        h1 { color: #fff; margin: 0; font-size: 2.4rem; letter-spacing: -1px; }
+        p { color: #94a3b8; line-height: 1.5; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    <div id="start-screen" class="overlay" style="display: flex;">
+        <div class="brand-sub">COMPANY ABC PRESENTS</div>
+        <h1>SafeMap</h1>
+        <p style="margin-top: 15px;"><i>"Mastering your environment is the foundation of safety."</i></p>
+        <p>Interactive Floor-by-Floor Journey</p>
+        <button class="btn-action" onclick="begin()">EXPLORE SURROUNDINGS</button>
+    </div>
+
+    <div id="milestone-screen" class="overlay">
+        <h1 id="m-title" style="font-size: 1.5rem;">FLOOR CLEAR</h1>
+        <p id="m-desc" style="margin-top: 15px;"></p>
+        <button class="btn-action" onclick="resume()">PROCEED TO NEXT FLOOR</button>
+    </div>
+
+    <div id="result-screen" class="overlay">
+        <h1>JOURNEY END</h1>
+        <p id="final-score" style="font-size: 1.1rem; color: #fff;"></p>
+        <p>You have successfully mapped your environment.</p>
+        <a href="https://www.linkedin.com/in/davidkiboi" class="btn-action">HIRE DAVID KIBOI</a>
+    </div>
+
+    <div class="timer" id="timer">30</div>
+    <div class="progress-container"><div id="progress-bar"></div></div>
+    <div class="question-box" id="q-text">Identifying Site...</div>
+    <div class="options-grid" id="o-grid"></div>
+</div>
+
+<script>
+    const baseQuestions = [
+        { q: "Why is environment mapping essential for safety?", a: ["It speeds up work", "Knowing exits/risks saves lives", "It looks good to guests", "It's a legal requirement only"], c: 1 },
+        { q: "SafeMap's Floor-by-Floor system ensures:", a: ["Random learning", "Mastery before advancement", "Skipping hard topics", "Only managers learn"], c: 1 },
+        { q: "Site awareness (knowing your surroundings) leads to:", a: ["Confusion", "Proactive hazard prevention", "Slower response times", "Fewer breaks"], c: 1 },
+        { q: "In an emergency, who is the safest Heartist?", a: ["The fastest runner", "The one who knows the layout", "The one who waits for orders", "The newest hire"], c: 1 },
+        { q: "Company ABC transforms complex sites into:", a: ["Large paper maps", "Interactive digital journeys", "Warning signs only", "Security manuals"], c: 1 }
+    ];
+
+    const questions = [];
+    for(let i=0; i<30; i++) { questions.push(baseQuestions[i % baseQuestions.length]); }
+
+    let current = 0, score = 0, clock, time = 30;
+
+    function begin() { document.getElementById('start-screen').style.display = 'none'; loadQ(); }
+
+    function loadQ() {
+        if (current === 10 || current === 20) { showMilestone(); return; }
+        startClock();
+        const data = questions[current]; 
+        document.getElementById('q-text').innerText = data.q;
+        const grid = document.getElementById('o-grid');
+        grid.innerHTML = '';
+        data.a.forEach((opt, i) => {
+            const b = document.createElement('button');
+            b.className = 'opt';
+            b.innerText = opt;
+            b.onclick = () => verify(i, b);
+            grid.appendChild(b);
+        });
+        document.getElementById('progress-bar').style.width = (current / 30) * 100 + '%';
+    }
+
+    function startClock() {
+        clearInterval(clock);
+        time = 30;
+        document.getElementById('timer').innerText = time;
+        clock = setInterval(() => {
+            time--;
+            document.getElementById('timer').innerText = time;
+            if (time <= 0) verify(-1);
+        }, 1000);
+    }
+
+    function verify(choice, btn) {
+        clearInterval(clock);
+        const correct = questions[current].c;
+        const all = document.querySelectorAll('.opt');
+        all.forEach(b => b.disabled = true);
+        if (choice === correct) { if(btn) btn.classList.add('correct'); score++; } 
+        else { if (btn) btn.classList.add('wrong'); all[correct].classList.add('correct'); }
+        setTimeout(() => { current++; current < 30 ? loadQ() : finish(); }, 1200);
+    }
+
+    function showMilestone() {
+        const screen = document.getElementById('milestone-screen');
+        const title = document.getElementById('m-title');
+        const desc = document.getElementById('m-desc');
+        screen.style.display = 'flex';
+        if (current === 10) {
+            title.innerText = "FLOOR 1: SITUATIONAL AWARENESS";
+            desc.innerText = "You have mastered the basics of your surroundings. Ready to dive into the technical safety layers?";
+        } else {
+            title.innerText = "FLOOR 2: OPERATIONAL SECURITY";
+            desc.innerText = "Critical safety paths mapped. Your environment knowledge is now at professional security levels.";
+        }
+    }
+
+    function resume() { document.getElementById('milestone-screen').style.display = 'none'; loadQ(); }
+
+    function finish() {
+        document.getElementById('result-screen').style.display = 'flex';
+        document.getElementById('final-score').innerText = `Awareness Rating: ${score}/30`;
+    }
+</script>
+</body>
+</html>
 
