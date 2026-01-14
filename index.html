@@ -68,7 +68,7 @@
     <div id="milestone-screen" class="overlay">
         <h1 id="m-title">Milestone 1 Complete</h1>
         <p id="m-desc" style="margin-top: 15px;">Take a breath.</p>
-        <button class="btn-action" id="m-btn" onclick="resume()">Proceed to Milestone 2</button>
+        <button class="btn-action" onclick="resume()">Proceed to Milestone 2</button>
     </div>
 
     <div id="result-screen" class="overlay">
@@ -92,25 +92,25 @@
 <script>
     const questions = [
         { q: "Who is the current CEO/Director General leading Company ABC?", a: ["Jane Smith", "John Doe", "Robert Brown", "Sarah Lee"], c: 1 },
-        { q: "On the interactive SafeMap, where is the main Control Room located?", a: ["Ground Floor", "Basement 1", "Roof", "Level 10"], c: 1 },
+        { q: "Based on the building layout, where is the main Control Room of Company ABC located?", a: ["Ground Floor", "Basement 1", "Roof", "Level 10"], c: 1 },
         { q: "Where are the fire extinguisher stations located within Company ABC?", a: ["Ground only", "Levels 1-10", "All levels (1-25)", "Parking only"], c: 2 },
         { q: "What is the primary benefit of an Automated External Defibrillator (AED)?", a: ["Stops bleeding", "Restores heart rhythm", "Checks temperature", "Purifies air"], c: 1 },
         { q: "Where are the AED units located within the Company ABC facility?", a: ["L1 & L2 only", "Every Floor", "B2, G, L10, L20", "Security Desk only"], c: 2 },
-        { q: "Where is the designated Primary Emergency Assembly Point located?", a: ["Main Lobby", "North Plaza", "Basement 4", "Staff Cafeteria"], c: 1 },
-        { q: "In the country of operation, what does dialing the emergency number 999 provide?", a: ["Police only", "Fire only", "Ambulance only", "All Emergency Services"], c: 3 },
+        { q: "Where is the designated Primary Emergency Assembly Point for Company ABC?", a: ["Main Lobby", "North Plaza", "Basement 4", "Staff Cafeteria"], c: 1 },
+        { q: "In this region, what does dialing the emergency number 999 provide for Company ABC personnel?", a: ["Police only", "Fire only", "Ambulance only", "All Emergency Services"], c: 3 },
         { q: "How many emergency exit staircases are available in the Company ABC building?", a: ["4", "8", "12", "16"], c: 2 },
-        { q: "What is the main safety benefit of pressurized emergency exit staircases?", a: ["Keeps air cool", "Prevents smoke entry", "Speed up walking", "Noise reduction"], c: 1 },
-        { q: "On which specific floors are specialized Evacuation Chairs found?", a: ["Every floor", "G & Roof", "L5, L15, L25", "Basement only"], c: 2 },
+        { q: "What is the main safety benefit of the pressurized emergency exit staircases in Company ABC?", a: ["Keeps air cool", "Prevents smoke entry", "Speed up walking", "Noise reduction"], c: 1 },
+        { q: "On which specific floors of Company ABC are specialized Evacuation Chairs found?", a: ["Every floor", "G & Roof", "L5, L15, L25", "Basement only"], c: 2 },
         { q: "In which area is the main Company ABC First Aid Room located?", a: ["Floor 2", "Ground Floor", "Mezzanine", "Basement 1"], c: 0 },
-        { q: "During an evacuation, which department is responsible for cutting the power?", a: ["Security", "HR", "Engineering", "IT"], c: 2 },
-        { q: "Which exit door leads directly to the Primary Assembly Point?", a: ["Exit 1", "Exit 2", "Exit 3", "Exit 4"], c: 3 },
-        { q: "What is the first action you should take the moment a fire alarm sounds?", a: ["Call the CEO", "Finish your task", "Evacuate immediately", "Pack your bags"], c: 2 },
-        { q: "Which department is responsible for accounting for personnel during an emergency?", a: ["Marketing", "Front Office/Reception", "Finance", "Housekeeping"], c: 1 },
-        { q: "All the following are characteristics of the ABC Fire Alarm except:", a: ["Visual strobes", "High-decibel siren", "Automatic link to Fire Dept", "Voice instructions only"], c: 3 },
-        { q: "What is the primary importance of a regularly inspected First Aid Kit?", a: ["Long term surgery", "Immediate injury care", "Storing vitamins", "Office decoration"], c: 1 },
-        { q: "What color is the universal sign for an Emergency Exit?", a: ["Red and White", "Green and White", "Blue and Yellow", "Black and Red"], c: 1 },
-        { q: "What does the 'R' stand for in the RACE fire response protocol?", a: ["Run", "Rescue", "Report", "Ring"], c: 1 },
-        { q: "How often should a Professional refresh their SafeMap situational training?", a: ["Once every few years", "Only when required by law", "As often as possible", "Never after initial orientation"], c: 2 }
+        { q: "During an evacuation of Company ABC, which department is responsible for cutting the power?", a: ["Security", "HR", "Engineering", "IT"], c: 2 },
+        { q: "Which exit door in Company ABC leads directly to the Primary Assembly Point?", a: ["Exit 1", "Exit 2", "Exit 3", "Exit 4"], c: 3 },
+        { q: "What is the first action a Company ABC employee should take when the fire alarm sounds?", a: ["Call the CEO", "Finish your task", "Evacuate immediately", "Pack your bags"], c: 2 },
+        { q: "Which department is responsible for accounting for personnel during a Company ABC emergency?", a: ["Marketing", "Front Office/Reception", "Finance", "Housekeeping"], c: 1 },
+        { q: "All the following are characteristics of the Company ABC Fire Alarm except:", a: ["Visual strobes", "High-decibel siren", "Automatic link to Fire Dept", "Voice instructions only"], c: 3 },
+        { q: "What is the primary importance of a regularly inspected First Aid Kit at Company ABC?", a: ["Long term surgery", "Immediate injury care", "Storing vitamins", "Office decoration"], c: 1 },
+        { q: "What color is the universal sign for an Emergency Exit within Company ABC?", a: ["Red and White", "Green and White", "Blue and Yellow", "Black and Red"], c: 1 },
+        { q: "What does the 'R' stand for in the RACE fire response protocol used by Company ABC?", a: ["Run", "Rescue", "Report", "Ring"], c: 1 },
+        { q: "How often should a Company ABC professional refresh their situational training?", a: ["Once every few years", "Only when required by law", "As often as possible", "Never after initial orientation"], c: 2 }
     ];
 
     let current = 0, score = 0, clock, time = 30, milestoneReached = false;
@@ -166,8 +166,7 @@
 
     function showMilestone() {
         milestoneReached = true;
-        const screen = document.getElementById('milestone-screen');
-        screen.style.display = 'flex';
+        document.getElementById('milestone-screen').style.display = 'flex';
     }
 
     function resume() { 
