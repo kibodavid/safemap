@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeMap | by Company ABC</title>
+    <title>SafeMap | Company ABC</title>
     <style>
         :root {
             --accent: #00d2ff; 
@@ -23,10 +23,10 @@
             overflow: hidden;
         }
         #app-container {
-            width: 90%;
+            width: 92%;
             max-width: 420px;
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border: 1px solid var(--border);
             padding: 30px;
             border-radius: 28px;
@@ -34,50 +34,58 @@
             text-align: center;
             position: relative;
         }
-        .brand-sub { font-size: 0.75rem; color: var(--accent); letter-spacing: 3px; margin-bottom: 5px; opacity: 0.8; }
-        .timer { font-size: 1.5rem; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
-        .progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 25px; }
-        #progress-bar { height: 100%; background: var(--accent); width: 0%; border-radius: 10px; transition: 0.4s; }
-        .question-box { font-size: 1.05rem; font-weight: 600; margin-bottom: 20px; min-height: 90px; display: flex; align-items: center; justify-content: center; line-height: 1.4;}
+        .brand-sub { font-size: 0.7rem; color: var(--accent); letter-spacing: 3px; margin-bottom: 5px; text-transform: uppercase; }
+        .timer { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        
+        .progress-wrapper { margin-bottom: 25px; }
+        .progress-text { font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; font-weight: 700; }
+        .progress-track { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        #progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.4s ease; }
+        
+        .question-box { font-size: 1.1rem; font-weight: 600; margin-bottom: 25px; min-height: 90px; display: flex; align-items: center; justify-content: center; line-height: 1.4;}
         .options-grid { display: grid; gap: 10px; }
-        .opt { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #cbd5e1; padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: left; font-size: 0.9rem; }
-        .opt:hover { border-color: var(--accent); background: rgba(0, 210, 255, 0.05); }
+        .opt { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #cbd5e1; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left; font-size: 0.95rem; }
+        .opt:hover { border-color: var(--accent); background: rgba(0, 210, 255, 0.1); }
         .correct { background: #059669 !important; border-color: #10b981 !important; color: white !important;}
         .wrong { background: #dc2626 !important; border-color: #ef4444 !important; color: white !important;}
         
         .overlay { display: none; position: absolute; inset: 0; background: #0f172a; z-index: 100; flex-direction: column; justify-content: center; align-items: center; border-radius: 28px; padding: 30px; }
-        .btn-action { background: var(--accent); color: #0f172a; border: none; padding: 16px 40px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; text-decoration: none; display: inline-block;}
-        h1 { color: #fff; margin: 0; font-size: 2.2rem; letter-spacing: -1px; }
-        p { color: #94a3b8; line-height: 1.5; font-size: 0.9rem; }
+        .btn-action { background: var(--accent); color: #0f172a; border: none; padding: 16px 40px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; text-decoration: none; }
+        h1 { color: #fff; margin: 0; font-size: 2.2rem; }
+        p { color: #94a3b8; line-height: 1.6; font-size: 0.95rem; }
     </style>
 </head>
 <body>
 
 <div id="app-container">
     <div id="start-screen" class="overlay" style="display: flex;">
-        <div class="brand-sub">COMPANY ABC PRESENTS</div>
+        <div class="brand-sub">Company ABC</div>
         <h1>SafeMap</h1>
-        <p style="margin-top: 15px;"><i>"Mastering your environment is the foundation of safety."</i></p>
-        <p>A 20-Question Site Awareness Journey</p>
-        <button class="btn-action" onclick="begin()">EXPLORE SURROUNDINGS</button>
+        <p style="margin-top: 15px;">A digital situational awareness tool focused on environmental mastery.</p>
+        <button class="btn-action" onclick="begin()">Start Assessment</button>
     </div>
 
     <div id="milestone-screen" class="overlay">
-        <h1 id="m-title" style="font-size: 1.5rem;">FLOOR CLEAR</h1>
-        <p id="m-desc" style="margin-top: 15px;"></p>
-        <button class="btn-action" onclick="resume()">PROCEED TO NEXT FLOOR</button>
+        <h1 id="m-title">MILESTONE #1</h1>
+        <p id="m-desc" style="margin-top: 15px;">Situational awareness verified. Continue to the next phase of the assessment.</p>
+        <button class="btn-action" onclick="resume()">Continue</button>
     </div>
 
     <div id="result-screen" class="overlay">
-        <h1>JOURNEY END</h1>
-        <p id="final-score" style="font-size: 1.1rem; color: #fff;"></p>
-        <p>Environment knowledge verified.</p>
-        <a href="https://www.linkedin.com/in/davidkiboi" class="btn-action">HIRE DAVID KIBOI</a>
+        <h1>Assessment Complete</h1>
+        <p id="final-score" style="font-size: 1.2rem; color: #fff; margin: 15px 0;"></p>
+        <p>Your environmental awareness rating has been recorded.</p>
+        <a href="https://www.linkedin.com/in/davidkiboi" class="btn-action">View Developer Profile</a>
     </div>
 
     <div class="timer" id="timer">30</div>
-    <div class="progress-container"><div id="progress-bar"></div></div>
-    <div class="question-box" id="q-text">Mapping...</div>
+    
+    <div class="progress-wrapper">
+        <div class="progress-text" id="progress-count">0 / 20</div>
+        <div class="progress-track"><div id="progress-bar"></div></div>
+    </div>
+
+    <div class="question-box" id="q-text">Loading...</div>
     <div class="options-grid" id="o-grid"></div>
 </div>
 
@@ -97,12 +105,12 @@
         { q: "During an evacuation, which department is responsible for cutting the power?", a: ["Security", "HR", "Engineering", "IT"], c: 2 },
         { q: "Which exit door leads directly to the Primary Assembly Point?", a: ["Exit 1", "Exit 2", "Exit 3", "Exit 4"], c: 3 },
         { q: "What is the first action you should take the moment a fire alarm sounds?", a: ["Call the CEO", "Finish your task", "Evacuate immediately", "Pack your bags"], c: 2 },
-        { q: "Which department is responsible for Guest/Client Accounting during an emergency?", a: ["Marketing", "Front Office/Reception", "Finance", "Housekeeping"], c: 1 },
+        { q: "Which department is responsible for accounting for personnel during an emergency?", a: ["Marketing", "Front Office/Reception", "Finance", "Housekeeping"], c: 1 },
         { q: "All the following are characteristics of the ABC Fire Alarm except:", a: ["Visual strobes", "High-decibel siren", "Automatic link to Fire Dept", "Voice instructions only"], c: 3 },
         { q: "What is the primary importance of a regularly inspected First Aid Kit?", a: ["Long term surgery", "Immediate injury care", "Storing vitamins", "Office decoration"], c: 1 },
         { q: "What color is the universal sign for an Emergency Exit?", a: ["Red and White", "Green and White", "Blue and Yellow", "Black and Red"], c: 1 },
         { q: "What does the 'R' stand for in the RACE fire response protocol?", a: ["Run", "Rescue", "Report", "Ring"], c: 1 },
-        { q: "How often should a Professional or Team Member refresh their SafeMap training?", a: ["Never", "Every 5 years", "Every 6 Months", "Only after an accident"], c: 2 }
+        { q: "How often should a Professional refresh their SafeMap situational training?", a: ["Once every few years", "Only when required by law", "As often as possible", "Never after initial orientation"], c: 2 }
     ];
 
     let current = 0, score = 0, clock, time = 30;
@@ -110,7 +118,7 @@
     function begin() { document.getElementById('start-screen').style.display = 'none'; loadQ(); }
 
     function loadQ() {
-        if (current === 10) { showMilestone(); return; }
+        if (current === 10) { showMilestone(1); return; }
         startClock();
         const data = questions[current]; 
         document.getElementById('q-text').innerText = data.q;
@@ -123,6 +131,11 @@
             b.onclick = () => verify(i, b);
             grid.appendChild(b);
         });
+        updateProgress();
+    }
+
+    function updateProgress() {
+        document.getElementById('progress-count').innerText = `${current} / 20`;
         document.getElementById('progress-bar').style.width = (current / 20) * 100 + '%';
     }
 
@@ -147,20 +160,18 @@
         setTimeout(() => { current++; current < 20 ? loadQ() : finish(); }, 1200);
     }
 
-    function showMilestone() {
+    function showMilestone(num) {
         const screen = document.getElementById('milestone-screen');
-        const title = document.getElementById('m-title');
-        const desc = document.getElementById('m-desc');
+        document.getElementById('m-title').innerText = `MILESTONE #${num}`;
         screen.style.display = 'flex';
-        title.innerText = "FLOOR 1: AWARENESS VERIFIED";
-        desc.innerText = "You have demonstrated strong knowledge of the facility layout. Proceed to the Final Floor: Emergency Response.";
     }
 
     function resume() { document.getElementById('milestone-screen').style.display = 'none'; loadQ(); }
 
     function finish() {
+        updateProgress();
         document.getElementById('result-screen').style.display = 'flex';
-        document.getElementById('final-score').innerText = `Awareness Rating: ${score}/20`;
+        document.getElementById('final-score').innerText = `Score: ${score} / 20`;
     }
 </script>
 </body>
