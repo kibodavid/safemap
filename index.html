@@ -66,9 +66,9 @@
     </div>
 
     <div id="milestone-screen" class="overlay">
-        <h1 id="m-title">MILESTONE #1</h1>
-        <p id="m-desc" style="margin-top: 15px;">Situational awareness verified. Continue to the next phase of the assessment.</p>
-        <button class="btn-action" onclick="resume()">Continue</button>
+        <h1 id="m-title">Milestone 1 Complete</h1>
+        <p id="m-desc" style="margin-top: 15px;">Take a breath.</p>
+        <button class="btn-action" id="m-btn" onclick="resume()">Proceed to Milestone 2</button>
     </div>
 
     <div id="result-screen" class="overlay">
@@ -113,12 +113,12 @@
         { q: "How often should a Professional refresh their SafeMap situational training?", a: ["Once every few years", "Only when required by law", "As often as possible", "Never after initial orientation"], c: 2 }
     ];
 
-    let current = 0, score = 0, clock, time = 30;
+    let current = 0, score = 0, clock, time = 30, milestoneReached = false;
 
     function begin() { document.getElementById('start-screen').style.display = 'none'; loadQ(); }
 
     function loadQ() {
-        if (current === 10) { showMilestone(1); return; }
+        if (current === 10 && !milestoneReached) { showMilestone(); return; }
         startClock();
         const data = questions[current]; 
         document.getElementById('q-text').innerText = data.q;
@@ -157,16 +157,23 @@
         all.forEach(b => b.disabled = true);
         if (choice === correct) { if(btn) btn.classList.add('correct'); score++; } 
         else { if (btn) btn.classList.add('wrong'); all[correct].classList.add('correct'); }
-        setTimeout(() => { current++; current < 20 ? loadQ() : finish(); }, 1200);
+        setTimeout(() => { 
+            current++; 
+            if (current < 20) { loadQ(); } 
+            else { finish(); }
+        }, 1200);
     }
 
-    function showMilestone(num) {
+    function showMilestone() {
+        milestoneReached = true;
         const screen = document.getElementById('milestone-screen');
-        document.getElementById('m-title').innerText = `MILESTONE #${num}`;
         screen.style.display = 'flex';
     }
 
-    function resume() { document.getElementById('milestone-screen').style.display = 'none'; loadQ(); }
+    function resume() { 
+        document.getElementById('milestone-screen').style.display = 'none'; 
+        loadQ(); 
+    }
 
     function finish() {
         updateProgress();
